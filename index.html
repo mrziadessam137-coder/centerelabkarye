@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سنتر العبقري | The Genius Educational Center</title>
+    <!-- استدعاء خط Cairo وأيقونات FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --navy: #0A1931;
+            --navy-light: #152b52;
+            --gold: #FFC947;
+            --light-gold: #ffde82;
+            --white: #ffffff;
+            --bg-gray: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+            --shadow-md: 0 8px 24px rgba(10,25,49,0.08);
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-gray);
+            color: var(--text-dark);
+            line-height: 1.7;
+            font-size: 15px;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            color: var(--gold);
+            padding: 16px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--gold);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo { display: flex; align-items: center; gap: 14px; }
+        .logo i { font-size: 38px; color: var(--gold); }
+        .logo h1 { font-size: 22px; font-weight: 800; line-height: 1.2; }
+        .logo span { font-size: 12px; color: #cbd5e1; font-weight: 400; }
+
+        .contact-info { text-align: left; font-size: 13px; color: var(--white); font-weight: 600; }
+        .contact-info a { color: var(--gold); text-decoration: none; transition: color 0.2s; }
+        .contact-info a:hover { color: var(--white); }
+
+        .container {
+            max-width: 1100px;
+            margin: 24px auto;
+            padding: 0 16px;
+        }
+
+        .view-section {
+            display: none;
+            background: var(--white);
+            padding: 28px 20px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .view-section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .welcome-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            margin: 24px 0;
+        }
+
+        .welcome-card {
+            background: var(--white);
+            padding: 22px 18px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            border-top: 4px solid var(--gold);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .welcome-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .welcome-card i { font-size: 36px; color: var(--navy); margin-bottom: 10px; }
+        .welcome-card h3 { color: var(--navy); font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .welcome-card p { font-size: 13.5px; color: var(--text-muted); font-weight: 600; }
+
+        .btn {
+            background-color: var(--gold);
+            color: var(--navy);
+            border: none;
+            padding: 11px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14.5px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: var(--light-gold);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 201, 71, 0.35);
+        }
+
+        .btn-navy { background-color: var(--navy); color: var(--white); }
+        .btn-navy:hover { background-color: var(--navy-light); color: var(--gold); box-shadow: 0 4px 12px rgba(10, 25, 49, 0.25); }
+        .btn-danger { background-color: #ef4444; color: white; }
+        .btn-danger:hover { background-color: #dc2626; }
+        .btn-security { background-color: #0d9488; color: white; }
+        .btn-security:hover { background-color: #0f766e; }
+
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+        .form-group { margin-bottom: 18px; text-align: right; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 700; color: var(--navy); font-size: 14px; }
+        .input-group { position: relative; }
+        .input-group i { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--navy); opacity: 0.7; font-size: 15px; }
+
+        .form-control {
+            width: 100%;
+            padding: 11px 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #fdfdfd;
+        }
+
+        .form-control.pl-icon { padding-right: 40px; }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(255, 201, 71, 0.25);
+            background: #fff;
+        }
+
+        .ads-section { margin-top: 35px; }
+        .section-title { text-align: center; color: var(--navy); margin-bottom: 25px; font-size: 22px; font-weight: 800; position: relative; }
+        .section-title::after { content: ''; width: 60px; height: 3.5px; background: var(--gold); position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); border-radius: 2px; }
+        .ads-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+        .ad-card { background: var(--white); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; box-shadow: var(--shadow-sm); border-top: 4px solid var(--navy); transition: 0.2s; position: relative; }
+        .ad-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .ad-date { font-size: 11.5px; color: var(--text-muted); margin-bottom: 8px; display: block; font-weight: 600; }
+        .ad-title { color: var(--navy); font-size: 16.5px; margin-bottom: 8px; font-weight: 700; }
+        .ad-content { font-size: 13.5px; color: #475569; white-space: pre-wrap; line-height: 1.6; }
+
+        .table-responsive { overflow-x: auto; margin-top: 15px; border-radius: 10px; border: 1px solid var(--border-color); }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; background: #fff; }
+        th, td { border: 1px solid var(--border-color); padding: 12px 10px; text-align: center; font-size: 13.5px; font-weight: 600; }
+        th { background-color: var(--navy); color: var(--gold); font-weight: 700; }
+        tr:nth-child(even) { background-color: #f8fafc; }
+
+        .badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; color: white; display: inline-block; }
+        .b-excellent { background: #10b981; } 
+        .b-vgood { background: #3b82f6; } 
+        .b-good { background: #f59e0b; } 
+        .b-pass { background: #f97316; } 
+        .b-fail { background: #ef4444; }
+
+        .tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 8px; overflow-x: auto; }
+        .tab-btn { padding: 8px 18px; cursor: pointer; border: none; background: none; font-size: 14.5px; font-weight: 700; color: var(--text-muted); transition: 0.2s; white-space: nowrap; border-radius: 6px; }
+        .tab-btn.active { color: var(--navy); background: #f1f5f9; border-bottom: 3px solid var(--gold); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.2s; }
+
+        .grades-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-bottom: 18px; background: #f8fafc; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); }
+        .grades-grid h4 { grid-column: 1 / -1; color: var(--navy); margin-bottom: 8px; font-size: 14.5px; font-weight: 700; }
+        .score-input { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 6px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 12.5px; font-weight: 600; }
+        .score-input input { width: 45px; padding: 4px; text-align: center; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: 700; }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; padding: 15px; }
+        .modal-box { background: #fff; padding: 28px 20px; border-radius: 16px; text-align: center; max-width: 380px; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.25); animation: fadeIn 0.2s; }
+        .modal-icon { font-size: 42px; color: #10b981; margin-bottom: 12px; }
+        .modal-code { font-size: 24px; font-weight: 800; color: var(--navy); background: #f1f5f9; padding: 10px; border-radius: 8px; letter-spacing: 3px; margin: 12px 0; border: 2px dashed var(--gold); }
+
+        .checkbox-group { display: flex; flex-wrap: wrap; gap: 8px; }
+        .checkbox-label { display: flex; align-items: center; gap: 6px; cursor: pointer; background: #fff; padding: 5px 12px; border-radius: 20px; border: 1px solid #cbd5e1; font-size: 12.5px; font-weight: 600; transition: 0.2s; }
+        .checkbox-label:hover { background: #e2e8f0; }
+        .stage-section-title { font-weight: 700; color: var(--navy); margin: 10px 0 6px 0; border-right: 3px solid var(--gold); padding-right: 8px; font-size: 13.5px; }
+
+        .security-badge { background: #ccfbf1; color: #0f766e; border: 1px solid #99f6e4; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 700; margin-bottom: 15px; text-align: center; }
+
+        @media (max-width: 768px) {
+            header { text-align: center; justify-content: center; padding: 12px 4%; }
+            .contact-info { text-align: center; width: 100%; margin-top: 4px; }
+            .view-section { padding: 20px 14px; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <div>
+                <h1>سنتر العبقري</h1>
+                <span>The Genius Educational Center</span>
+            </div>
+        </div>
+        <div class="contact-info">
+            <i class="fa-solid fa-phone"></i> <a href="tel:01113771027">01113771027</a><br>
+            <i class="fa-solid fa-envelope"></i> <a href="mailto:info@thegenius.com">info@thegenius.com</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="homeView" class="view-section active">
+            <div style="text-align: center; margin-bottom: 25px; padding-bottom: 18px; border-bottom: 1px solid var(--border-color);">
+                <p style="color: var(--text-dark); margin-bottom: 15px; font-weight: 700; font-size: 16px;">اختر بوابة الدخول أو سجل حساباً جديداً:</p>
+                <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn" onclick="nav('studentLoginView')"><i class="fa-solid fa-user-graduate"></i> بوابة الطلاب</button>
+                    <button class="btn btn-navy" onclick="nav('teacherLoginView')"><i class="fa-solid fa-chalkboard-user"></i> بوابة المعلمين</button>
+                    <button class="btn" style="background: #e2e8f0; color: #333;" onclick="nav('studentRegisterView')"><i class="fa-solid fa-user-plus"></i> تسجيل طالب جديد</button>
+                </div>
+            </div>
+
+            <!-- الكروت الثلاثة -->
+            <div class="welcome-grid">
+                <div class="welcome-card">
+                    <i class="fa-solid fa-door-open"></i>
+                    <h3>مرحباً بكم في سنتر العبقري</h3>
+                    <p>المنصة التعليمية المتكاملة لمتابعة الطلاب والتفوق الدراسي خطوة بخطوة.</p>
+                </div>
+
+                <div class="welcome-card">
+                    <i class="fa-solid fa-book-journal-whills"></i>
+                    <h3>المواد الدراسية</h3>
+                    <p>لغة عربية - رياضيات - علوم وفيزياء - لغة إنجليزية - دراسات وتاريخ - كيمياء وأحياء.</p>
+                </div>
+
+                <div class="welcome-card">
+                    <i class="fa-solid fa-rocket"></i>
+                    <h3>طريقك نحو القمة</h3>
+                    <p>"العبقرية ليست مصادفة، بل هي نتاج الاجتهاد والمتابعة المستمرة صنعت لأجلك."</p>
+                </div>
+            </div>
+
+            <!-- قسم الإعلانات العامة -->
+            <div class="ads-section">
+                <h3 class="section-title">إعلانات وأخبار السنتر</h3>
+                <div class="ads-grid" id="publicAdsContainer"></div>
+            </div>
+        </div>
+
+        <div id="studentLoginView" class="view-section">
+            <button class="btn btn-navy" style="margin-bottom: 18px;" onclick="nav('homeView')"><i class="fa-solid fa-arrow-right"></i> رجوع</button>
+            <h2 style="color: var(--navy); margin-bottom: 18px; text-align: center; font-size: 20px;"><i class="fa-solid fa-user-graduate"></i> دخول الطلاب</h2>
+            <div style="max-width: 380px; margin: 0 auto;">
+                <div class="form-group">
+                    <label>كود الطالب (8 أرقام)</label>
+                    <div class="input-group">
+                        <i class="fa-solid fa-hashtag pl-icon"></i>
+                        <input type="text" id="loginStudentCode" class="form-control pl-icon" placeholder="أدخل كود الدخول الخاص بك">
+                    </div>
+                </div>
+                <button class="btn" style="width: 100%;" onclick="loginStudent()"><i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول</button>
+            </div>
+        </div>
+
+        <div id="teacherLoginView" class="view-section">
+            <button class="btn btn-navy" style="margin-bottom: 18px;" onclick="nav('homeView')"><i class="fa-solid fa-arrow-right"></i> رجوع</button>
+            <h2 style="color: var(--navy); margin-bottom: 18px; text-align: center; font-size: 20px;"><i class="fa-solid fa-chalkboard-user"></i> دخول المعلمين (الأدمن)</h2>
+            <div style="max-width: 380px; margin: 0 auto;">
+                <div class="form-group">
+                    <label>كود المعلم السري (5 أرقام)</label>
+                    <div class="input-group">
+                        <i class="fa-solid fa-key pl-icon"></i>
+                        <input type="password" id="loginTeacherCode" class="form-control pl-icon" placeholder="أدخل الكود السري للمعلم">
+                    </div>
+                </div>
+                <button class="btn btn-navy" style="width: 100%; margin-bottom: 15px;" onclick="loginTeacher()"><i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول</button>
+
+                <div style="border-top: 1px dashed var(--border-color); pt-3; margin-top: 20px; text-align: center;">
+                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">معلم جديد وترغب في التسجيل؟</p>
+                    <button class="btn btn-security" style="width: 100%;" onclick="nav('teacherMasterKeyView')"><i class="fa-solid fa-shield-halved"></i> إنشاء حساب معلم جديد (يتطلب رمز حماية السنتر)</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="teacherMasterKeyView" class="view-section">
+            <button class="btn btn-navy" style="margin-bottom: 18px;" onclick="nav('teacherLoginView')"><i class="fa-solid fa-arrow-right"></i> رجوع</button>
+            <h2 style="color: #0f766e; margin-bottom: 18px; text-align: center; font-size: 20px;"><i class="fa-solid fa-lock"></i> التحقق من أمان السنتر</h2>
+            
+            <div style="max-width: 400px; margin: 0 auto;">
+                <div class="security-badge">
+                    <i class="fa-solid fa-triangle-exclamation"></i> هذه المنطقة مخصصة للمعلمين فقط. يلزم كتابة "رمز حماية السنتر / الماستر كود" للوصول إلى استمارة التسجيل.
+                </div>
+
+                <div class="form-group">
+                    <label>رمز حماية السنتر (Master Code):</label>
+                    <div class="input-group">
+                        <i class="fa-solid fa-shield-cat pl-icon"></i>
+                        <input type="password" id="masterCodeInput" class="form-control pl-icon" placeholder="أدخل رمز حماية إدارة السنتر">
+                    </div>
+                </div>
+                <button class="btn btn-security" style="width: 100%;" onclick="verifyMasterCode()"><i class="fa-solid fa-key"></i> تحقق وافتح التسجيل</button>
+            </div>
+        </div>
+
+        <div id="studentRegisterView" class="view-section">
+            <button class="btn btn-navy" style="margin-bottom: 18px;" onclick="nav('homeView')"><i class="fa-solid fa-arrow-right"></i> رجوع</button>
+            <h2 style="color: var(--navy); margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 8px; font-size: 20px;"><i class="fa-solid fa-user-plus"></i> تسجيل طالب جديد</h2>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>الاسم الرباعي للطالب</label>
+                    <div class="input-group">
+                        <i class="fa-solid fa-user pl-icon"></i>
+                        <input type="text" id="stdRegName" class="form-control pl-icon" placeholder="اكتب اسم الطالب بالكامل">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>رقم تليفون الطالب / ولي الأمر</label>
+                    <div class="input-group">
+                        <i class="fa-solid fa-phone pl-icon"></i>
+                        <input type="text" id="stdRegPhone" class="form-control pl-icon" placeholder="أدخل رقم الهاتف">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>المرحلة الدراسية</label>
+                    <select id="stdRegStage" class="form-control" onchange="updateStudentGradesOptions()">
+                        <option value="الابتدائية">المرحلة الابتدائية</option>
+                        <option value="الإعدادية">المرحلة الإعدادية</option>
+                        <option value="الثانوية">المرحلة الثانوية</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>الصف الدراسي</label>
+                    <select id="stdRegGrade" class="form-control"></select>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 22px;">
+                <button class="btn" style="padding: 12px 28px; font-size: 15px;" onclick="registerStudent()"><i class="fa-solid fa-user-check"></i> إنهاء التسجيل واستخراج كود الطالب</button>
+            </div>
+        </div>
+
+        <div id="teacherRegisterView" class="view-section">
+            <button class="btn btn-navy" style="margin-bottom: 18px;" onclick="nav('teacherLoginView')"><i class="fa-solid fa-arrow-right"></i> إلغاء ورجوع</button>
+            <h2 style="color: var(--navy); margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 8px; font-size: 20px;"><i class="fa-solid fa-id-card-clip"></i> تسجيل حساب معلم جديد (مرخص)</h2>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>الاسم الرباعي للمعلم</label>
+                    <div class="input-group">
+                        <i class="fa-solid fa-user-tie pl-icon"></i>
+                        <input type="text" id="tRegName" class="form-control pl-icon" placeholder="اسم المعلم بالكامل">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>رقم التليفون</label>
+                    <div class="input-group">
+                        <i class="fa-solid fa-phone pl-icon"></i>
+                        <input type="text" id="tRegPhone" class="form-control pl-icon" placeholder="رقم الهاتف الخاص بالمعلم">
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: #f8fafc; padding: 15px; border-radius: 10px; margin-top: 10px; border: 1px dashed var(--navy);">
+                <label style="font-size: 14px; margin-bottom: 5px; font-weight: 700;"><i class="fa-solid fa-layer-group"></i> الصفوف التي تدرسها (اختر الصفوف المناسبة):</label>
+                
+                <div class="stage-section-title">المرحلة الابتدائية</div>
+                <div class="checkbox-group">
+                    <label class="checkbox-label"><input type="checkbox" class="t-grade-cb" value="الأول الابتدائي"> <span>الأول</span></label>
+                    <label class="checkbox-label"><input type="checkbox" class="t-grade-cb" value="الثاني الابتدائي"> <span>الثاني</span></label>
+                    <label class="checkbox-label"><input type="checkbox" class="t-grade-cb" value="الثالث الابتدائي"> <span>الثالث</span></label>
+                    <label class="checkbox-label"><input type="checkbox" class="t-grade-cb" value="الرابع الابتدائي"> <span>الرابع</span></label>
+                    <label class="checkbox-label"><input type="checkbox" class="t-grade-cb" value="الخامس الابتدائي"> <span>الخامس</span></label>
+                    <label class="checkbox-label"><input type="checkbox" class="t-grade-cb" value="السادس الابتدائي"> <span>السادس</span></label>
+                </div>
+
+                <div class="stage-section-title">المرحلة الإعدادية</div>
+                <div class="checkbox-group">
+                    <label class="checkbox-label"><input type="checkbox" class="t-grade-cb" value="الأول الإعدادي"> <span>الأول</span></label>
+                    <label class="checkbox-label"><input type="checkbox" class="t-grade-cb" value="الثاني الإعدادي"> <span>الثاني</span></label>
+                    <label class="checkbox-label"><input type="checkbox" class="t-grade-cb" value="الثالث الإعدادي"> <span>الثالث</span></label>
+                </div>
+
+                <div class="stage-section-title">المرحلة الثانوية</div>
+                <div class="checkbox-group">
+                    <label class="checkbox-label"><input type="checkbox" class="t-grade-cb" value="الأول الثانوي"> <span>الأول</span></label>
+                    <label class="checkbox-label"><input type="checkbox" class="t-grade-cb" value="الثاني الثانوي"> <span>الثاني</span></label>
+                    <label class="checkbox-label"><input type="checkbox" class="t-grade-cb" value="الثالث الثانوي"> <span>الثالث</span></label>
+                </div>
+            </div>
+
+            <div style="background: #f8fafc; padding: 15px; border-radius: 10px; margin-top: 15px; border: 1px dashed var(--navy);">
+                <label style="font-size: 14px; margin-bottom: 8px; font-weight: 700;"><i class="fa-solid fa-book-open"></i> المواد التي تدرسها:</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-label"><input type="checkbox" class="t-subj-cb" value="لغة عربية"> <span>لغة عربية</span></label>
+                    <label class="checkbox-label"><input type="checkbox" class="t-subj-cb" value="رياضيات"> <span>رياضيات</span></label>
+                    <label class="checkbox-label"><input type="checkbox" class="t-subj-cb" value="علوم/فيزياء"> <span>علوم وفيزياء</span></label>
+                    <label class="checkbox-label"><input type="checkbox" class="t-subj-cb" value="لغة إنجليزية"> <span>لغة إنجليزية</span></label>
+                    <label class="checkbox-label"><input type="checkbox" class="t-subj-cb" value="تاريخ/جغرافيا"> <span>دراسات وتاريخ</span></label>
+                    <label class="checkbox-label"><input type="checkbox" class="t-subj-cb" value="كيمياء/أحياء"> <span>كيمياء وأحياء</span></label>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 22px;">
+                <button class="btn btn-navy" style="padding: 12px 28px; font-size: 15px;" onclick="registerTeacher()"><i class="fa-solid fa-user-shield"></i> إنشاء واستخراج الكود السري للمعلم</button>
+            </div>
+        </div>
+
+        <div id="studentDashboard" class="view-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
+                <h2 style="color: var(--navy); font-size: 19px;"><i class="fa-solid fa-address-card"></i> ملف الطالب: <span id="stdDashName" style="color: var(--navy-light); text-decoration: underline;"></span></h2>
+                <button class="btn btn-danger" onclick="logout()"><i class="fa-solid fa-power-off"></i> تسجيل خروج</button>
+            </div>
+            
+            <div style="background: #f8fafc; padding: 12px; border-radius: 8px; margin-bottom: 18px; display: flex; gap: 20px; font-size: 13.5px; flex-wrap: wrap;">
+                <p><i class="fa-solid fa-school"></i> <strong>الصف:</strong> <span id="stdDashStage"></span></p>
+                <p><i class="fa-solid fa-money-bill-wave"></i> <strong>المصروفات:</strong> <span id="stdDashPayment" class="badge"></span></p>
+            </div>
+            
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>تفاصيل التسميع (8 حصص)</th>
+                            <th>الامتحانات (2)</th>
+                            <th>أيام الغياب</th>
+                            <th>المجموع</th>
+                            <th>النسبة والتقدير</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentRecordsBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="teacherDashboard" class="view-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
+                <h2 style="color: var(--navy); font-size: 20px;"><i class="fa-solid fa-user-shield"></i> لوحة المعلم والتحكم</h2>
+                <button class="btn btn-danger" onclick="logout()"><i class="fa-solid fa-power-off"></i> خروج</button>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('tab-grades', this)"><i class="fa-solid fa-marker"></i> إدارة درجات الطلاب</button>
+                <button class="tab-btn" onclick="switchTab('tab-ads', this)"><i class="fa-solid fa-bullhorn"></i> إدارة الإعلانات</button>
+            </div>
+
+            <!-- تبويب الدرجات -->
+            <div id="tab-grades" class="tab-content active">
+                <div style="background: #f1f5f9; padding: 18px; border-radius: 10px; margin-bottom: 18px;">
+                    <div class="form-grid">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label><i class="fa-solid fa-filter"></i> 1. اختر الصف الدراسي أولاً:</label>
+                            <select id="teacherGradeFilter" class="form-control" onchange="filterStudentsByGrade()">
+                                <option value="">-- اختر الصف الدراسي --</option>
+                                <optgroup label="المرحلة الابتدائية">
+                                    <option value="الأول الابتدائي">الأول الابتدائي</option>
+                                    <option value="الثاني الابتدائي">الثاني الابتدائي</option>
+                                    <option value="الثالث الابتدائي">الثالث الابتدائي</option>
+                                    <option value="الرابع الابتدائي">الرابع الابتدائي</option>
+                                    <option value="الخامس الابتدائي">الخامس الابتدائي</option>
+                                    <option value="السادس الابتدائي">السادس الابتدائي</option>
+                                </optgroup>
+                                <optgroup label="المرحلة الإعدادية">
+                                    <option value="الأول الإعدادي">الأول الإعدادي</option>
+                                    <option value="الثاني الإعدادي">الثاني الإعدادي</option>
+                                    <option value="الثالث الإعدادي">الثالث الإعدادي</option>
+                                </optgroup>
+                                <optgroup label="المرحلة الثانوية">
+                                    <option value="الأول الثانوي">الأول الثانوي</option>
+                                    <option value="الثاني الثانوي">الثاني الثانوي</option>
+                                    <option value="الثالث الثانوي">الثالث الثانوي</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label><i class="fa-solid fa-user-graduate"></i> 2. اختر الطالب من الصف:</label>
+                            <select id="teacherStudentSelect" class="form-control" disabled>
+                                <option value="">-- يرجى اختيار الصف أولاً --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 15px; text-align: left;">
+                        <button class="btn" onclick="openEditor()"><i class="fa-solid fa-file-pen"></i> عرض وتعديل السجل</button>
+                    </div>
+                </div>
+
+                <div id="recordEditor" style="display: none; border: 2px solid var(--navy); padding: 18px; border-radius: 12px; background: #fff; box-shadow: var(--shadow-sm);">
+                    <h3 style="color: var(--navy); margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; font-size: 16.5px;">
+                        <i class="fa-solid fa-user-pen"></i> تعديل بيانات: <span id="editStudentName" style="color: var(--navy-light);"></span>
+                    </h3>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>حالة دفع المصروفات:</label>
+                            <select id="editPayment" class="form-control">
+                                <option value="تم الدفع">✅ تم الدفع</option>
+                                <option value="لم يتم الدفع">❌ لم يتم الدفع</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>أيام الغياب خلال الشهر:</label>
+                            <input type="number" id="editAbsence" class="form-control" min="0" value="0">
+                        </div>
+                    </div>
+
+                    <div class="grades-grid" id="quizzesGrid"></div>
+                    <div class="grades-grid" id="examsGrid" style="background: #fffbeb;"></div>
+
+                    <div style="background: var(--navy); color: var(--white); padding: 10px; border-radius: 8px; margin-bottom: 18px; text-align: center; font-size: 15px;">
+                        النسبة: <strong id="livePercent" style="color: var(--gold);">0%</strong> | التقدير: <strong id="liveGrade" style="color: var(--gold);">--</strong>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn" onclick="saveRecord()"><i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات</button>
+                        <button class="btn" style="background: #e2e8f0; color: #333;" onclick="document.getElementById('recordEditor').style.display='none'">إلغاء</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- تبويب الإعلانات -->
+            <div id="tab-ads" class="tab-content">
+                <div style="background: #f8fafc; padding: 18px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 22px;">
+                    <h3 style="color: var(--navy); margin-bottom: 12px; font-size: 16.5px;"><i class="fa-solid fa-pen-to-square"></i> إضافة إعلان جديد</h3>
+                    <div class="form-group">
+                        <label>عنوان الإعلان</label>
+                        <input type="text" id="newAdTitle" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>تفاصيل الإعلان</label>
+                        <textarea id="newAdContent" class="form-control" rows="3"></textarea>
+                    </div>
+                    <button class="btn" onclick="saveNewAd()"><i class="fa-solid fa-share-nodes"></i> نشر الإعلان</button>
+                </div>
+                <h3 style="color: var(--navy); margin-bottom: 12px; font-size: 16.5px;"><i class="fa-solid fa-list"></i> الإعلانات الحالية</h3>
+                <div class="ads-grid" id="adminAdsContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="codeModal" class="modal-overlay">
+        <div class="modal-box">
+            <i class="fa-solid fa-circle-check modal-icon"></i>
+            <h3 style="color: var(--navy); margin-bottom: 8px;">تم إنشاء الحساب بنجاح!</h3>
+            <p style="color: var(--text-muted); font-size: 13.5px;">يرجى الاحتفاظ بالكود السري لتسجيل الدخول به:</p>
+            <div class="modal-code" id="generatedCodeDisplay"></div>
+            <p id="generatedNameDisplay" style="font-weight: 700; margin-bottom: 18px; font-size: 14px;"></p>
+            <button class="btn" style="width: 100%;" onclick="closeModalAndGoHome()">حسناً، فهمت</button>
+        </div>
+    </div>
+
+    <script>
+        // رمز الحماية العام لإدارة السنتر (Master Code)
+        const MASTER_CENTER_CODE = "12345";
+
+        // قاعدة البيانات المحلية
+        let users = JSON.parse(localStorage.getItem('geniusUsers')) || [];
+        let records = JSON.parse(localStorage.getItem('geniusRecords')) || {};
+        let ads = JSON.parse(localStorage.getItem('geniusAds')) || [
+            { id: 1, title: "مرحباً بكم في سنتر العبقري", content: "نتمنى لجميع طلابنا التفوق والنجاح دائماً.", date: new Date().toLocaleDateString('ar-EG') }
+        ];
+        
+        let currentUser = null;
+        let selectedStudentCodeForEdit = null;
+
+        const gradesByStage = {
+            "الابتدائية": ["الأول الابتدائي", "الثاني الابتدائي", "الثالث الابتدائي", "الرابع الابتدائي", "الخامس الابتدائي", "السادس الابتدائي"],
+            "الإعدادية": ["الأول الإعدادي", "الثاني الإعدادي", "الثالث الإعدادي"],
+            "الثانوية": ["الأول الثانوي", "الثاني الثانوي", "الثالث الثانوي"]
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            updateStudentGradesOptions();
+            renderAds();
+        });
+
+        function nav(viewId) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function verifyMasterCode() {
+            const inputCode = document.getElementById('masterCodeInput').value.trim();
+            if (inputCode === MASTER_CENTER_CODE) {
+                alert('تم التحقق بنجاح! يمكنك الآن تسجيل بيانات المعلم.');
+                document.getElementById('masterCodeInput').value = '';
+                nav('teacherRegisterView');
+            } else {
+                alert('رمز حماية السنتر (Master Code) غير صحيح! يرجى مراجعة إدارة السنتر.');
+            }
+        }
+
+        function updateStudentGradesOptions() {
+            const stage = document.getElementById('stdRegStage').value;
+            const gradeSelect = document.getElementById('stdRegGrade');
+            gradeSelect.innerHTML = '';
+            gradesByStage[stage].forEach(g => {
+                const opt = document.createElement('option');
+                opt.value = g;
+                opt.textContent = g;
+                gradeSelect.appendChild(opt);
+            });
+        }
+
+        function registerStudent() {
+            const name = document.getElementById('stdRegName').value.trim();
+            const phone = document.getElementById('stdRegPhone').value.trim();
+            const grade = document.getElementById('stdRegGrade').value;
+
+            if (!name || !phone) {
+                alert('يرجى كتابة اسم الطالب ورقم الهاتف.');
+                return;
+            }
+
+            const code = Math.floor(10000000 + Math.random() * 90000000).toString();
+            const user = { code, name, phone, type: 'student', grade };
+            
+            users.push(user);
+            records[code] = { payment: "لم يتم الدفع", absence: 0, quizzes: Array(8).fill(0), exams: Array(2).fill(0) };
+
+            saveToLocalStorage();
+
+            document.getElementById('generatedCodeDisplay').textContent = code;
+            document.getElementById('generatedNameDisplay').textContent = "أهلاً بك يا طالبنا العبقري: " + name;
+            document.getElementById('codeModal').style.display = 'flex';
+        }
+
+        function registerTeacher() {
+            const name = document.getElementById('tRegName').value.trim();
+            const phone = document.getElementById('tRegPhone').value.trim();
+            const selectedGrades = Array.from(document.querySelectorAll('.t-grade-cb:checked')).map(c => c.value);
+            const selectedSubjs = Array.from(document.querySelectorAll('.t-subj-cb:checked')).map(c => c.value);
+
+            if (!name || !phone) {
+                alert('يرجى كتابة اسم المعلم ورقم الهاتف.');
+                return;
+            }
+
+            const code = Math.floor(10000 + Math.random() * 90000).toString();
+            const user = { code, name, phone, type: 'teacher', grades: selectedGrades, subjects: selectedSubjs };
+
+            users.push(user);
+            saveToLocalStorage();
+
+            document.getElementById('generatedCodeDisplay').textContent = code;
+            document.getElementById('generatedNameDisplay').textContent = "أهلاً بك أستاذ: " + name;
+            document.getElementById('codeModal').style.display = 'flex';
+        }
+
+        function closeModalAndGoHome() {
+            document.getElementById('codeModal').style.display = 'none';
+            document.getElementById('stdRegName').value = '';
+            document.getElementById('stdRegPhone').value = '';
+            document.getElementById('tRegName').value = '';
+            document.getElementById('tRegPhone').value = '';
+            nav('homeView');
+        }
+
+        function loginStudent() {
+            const code = document.getElementById('loginStudentCode').value.trim();
+            const user = users.find(u => u.code === code && u.type === 'student');
+            
+            if (!user) {
+                alert('كود الطالب غير صحيح!');
+                return;
+            }
+
+            currentUser = user;
+            document.getElementById('stdDashName').textContent = user.name;
+            document.getElementById('stdDashStage').textContent = user.grade;
+            
+            renderStudentDash();
+            nav('studentDashboard');
+        }
+
+        function renderStudentDash() {
+            const rec = records[currentUser.code] || { payment: "لم يتم الدفع", absence: 0, quizzes: Array(8).fill(0), exams: Array(2).fill(0) };
+            
+            const paySpan = document.getElementById('stdDashPayment');
+            paySpan.textContent = rec.payment;
+            paySpan.className = 'badge ' + (rec.payment === 'تم الدفع' ? 'b-excellent' : 'b-fail');
+
+            let totalQuizzes = rec.quizzes.reduce((a, b) => Number(a) + Number(b), 0);
+            let totalExams = rec.exams.reduce((a, b) => Number(a) + Number(b), 0);
+            let grandTotal = totalQuizzes + totalExams;
+            let percent = Math.round((grandTotal / 160) * 100);
+
+            let badgeClass = 'b-fail';
+            let gradeText = 'ضعيف';
+            if (percent >= 85) { badgeClass = 'b-excellent'; gradeText = 'ممتاز'; }
+            else if (percent >= 75) { badgeClass = 'b-vgood'; gradeText = 'جيد جداً'; }
+            else if (percent >= 65) { badgeClass = 'b-good'; gradeText = 'جيد'; }
+            else if (percent >= 50) { badgeClass = 'b-pass'; gradeText = 'مقبول'; }
+
+            const tbody = document.getElementById('studentRecordsBody');
+            tbody.innerHTML = `
+                <tr>
+                    <td>${rec.quizzes.map((q, i) => `ح${i+1}: <strong>${q}</strong>`).join(' | ')}</td>
+                    <td>امتحان 1: <strong>${rec.exams[0]}</strong><br>امتحان 2: <strong>${rec.exams[1]}</strong></td>
+                    <td><strong style="color: #ef4444;">${rec.absence} أيام</strong></td>
+                    <td><strong>${grandTotal} / 160</strong></td>
+                    <td><span class="badge ${badgeClass}">${percent}% - ${gradeText}</span></td>
+                </tr>
+            `;
+        }
+
+        function loginTeacher() {
+            const code = document.getElementById('loginTeacherCode').value.trim();
+            const user = users.find(u => u.code === code && u.type === 'teacher');
+
+            if (!user && code !== "12345") {
+                alert('كود المعلم السري غير صحيح!');
+                return;
+            }
+
+            currentUser = user || { name: "المعلم الأدمن", type: "teacher" };
+            nav('teacherDashboard');
+        }
+
+        function filterStudentsByGrade() {
+            const selectedGrade = document.getElementById('teacherGradeFilter').value;
+            const studentSelect = document.getElementById('teacherStudentSelect');
+            studentSelect.innerHTML = '<option value="">-- اختر الطالب --</option>';
+
+            if (!selectedGrade) {
+                studentSelect.disabled = true;
+                return;
+            }
+
+            const filtered = users.filter(u => u.type === 'student' && u.grade === selectedGrade);
+            filtered.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s.code;
+                opt.textContent = `${s.name} (${s.code})`;
+                studentSelect.appendChild(opt);
+            });
+
+            studentSelect.disabled = false;
+        }
+
+        function openEditor() {
+            const code = document.getElementById('teacherStudentSelect').value;
+            if (!code) {
+                alert('يرجى اختيار طالب أولاً!');
+                return;
+            }
+
+            selectedStudentCodeForEdit = code;
+            const student = users.find(u => u.code === code);
+            const rec = records[code] || { payment: "لم يتم الدفع", absence: 0, quizzes: Array(8).fill(0), exams: Array(2).fill(0) };
+
+            document.getElementById('editStudentName').textContent = student.name;
+            document.getElementById('editPayment').value = rec.payment;
+            document.getElementById('editAbsence').value = rec.absence;
+
+            const qGrid = document.getElementById('quizzesGrid');
+            qGrid.innerHTML = '<h4><i class="fa-solid fa-list-check"></i> درجات التسميع (من 10):</h4>';
+            for (let i = 0; i < 8; i++) {
+                qGrid.innerHTML += `
+                    <div class="score-input">
+                        <span>حصـة ${i+1}</span>
+                        <input type="number" min="0" max="10" class="quiz-inp" value="${rec.quizzes[i] || 0}" onchange="calcLiveScore()">
+                    </div>
+                `;
+            }
+
+            const eGrid = document.getElementById('examsGrid');
+            eGrid.innerHTML = '<h4><i class="fa-solid fa-file-signature"></i> الامتحانات الشهرية (من 40):</h4>';
+            for (let i = 0; i < 2; i++) {
+                eGrid.innerHTML += `
+                    <div class="score-input">
+                        <span>امتحان ${i+1}</span>
+                        <input type="number" min="0" max="40" class="exam-inp" value="${rec.exams[i] || 0}" onchange="calcLiveScore()">
+                    </div>
+                `;
+            }
+
+            calcLiveScore();
+            document.getElementById('recordEditor').style.display = 'block';
+        }
+
+        function calcLiveScore() {
+            const qInps = Array.from(document.querySelectorAll('.quiz-inp')).map(i => Number(i.value) || 0);
+            const eInps = Array.from(document.querySelectorAll('.exam-inp')).map(i => Number(i.value) || 0);
+
+            let total = qInps.reduce((a,b)=>a+b, 0) + eInps.reduce((a,b)=>a+b, 0);
+            let percent = Math.round((total / 160) * 100);
+
+            document.getElementById('livePercent').textContent = percent + '%';
+            
+            let gradeText = 'ضعيف';
+            if (percent >= 85) gradeText = 'ممتاز';
+            else if (percent >= 75) gradeText = 'جيد جداً';
+            else if (percent >= 65) gradeText = 'جيد';
+            else if (percent >= 50) gradeText = 'مقبول';
+
+            document.getElementById('liveGrade').textContent = gradeText;
+        }
+
+        function saveRecord() {
+            if (!selectedStudentCodeForEdit) return;
+
+            const quizzes = Array.from(document.querySelectorAll('.quiz-inp')).map(i => Number(i.value) || 0);
+            const exams = Array.from(document.querySelectorAll('.exam-inp')).map(i => Number(i.value) || 0);
+
+            records[selectedStudentCodeForEdit] = {
+                payment: document.getElementById('editPayment').value,
+                absence: Number(document.getElementById('editAbsence').value) || 0,
+                quizzes,
+                exams
+            };
+
+            saveToLocalStorage();
+            alert('تم حفظ البيانات بنجاح!');
+            document.getElementById('recordEditor').style.display = 'none';
+        }
+
+        function renderAds() {
+            const pub = document.getElementById('publicAdsContainer');
+            const adm = document.getElementById('adminAdsContainer');
+            pub.innerHTML = '';
+            adm.innerHTML = '';
+
+            ads.forEach(ad => {
+                const card = `
+                    <div class="ad-card">
+                        <span class="ad-date"><i class="fa-regular fa-clock"></i> ${ad.date}</span>
+                        <h4 class="ad-title">${ad.title}</h4>
+                        <p class="ad-content">${ad.content}</p>
+                    </div>
+                `;
+                pub.innerHTML += card;
+
+                const admCard = `
+                    <div class="ad-card">
+                        <span class="ad-date"><i class="fa-regular fa-clock"></i> ${ad.date}</span>
+                        <h4 class="ad-title">${ad.title}</h4>
+                        <p class="ad-content">${ad.content}</p>
+                        <button class="btn btn-danger" style="margin-top:10px; width:100%; font-size:12px; padding:6px;" onclick="deleteAd(${ad.id})"><i class="fa-solid fa-trash"></i> حذف</button>
+                    </div>
+                `;
+                adm.innerHTML += admCard;
+            });
+        }
+
+        function saveNewAd() {
+            const title = document.getElementById('newAdTitle').value.trim();
+            const content = document.getElementById('newAdContent').value.trim();
+
+            if (!title || !content) {
+                alert('يرجى ملء كافة حقول الإعلان.');
+                return;
+            }
+
+            ads.unshift({
+                id: Date.now(),
+                title,
+                content,
+                date: new Date().toLocaleDateString('ar-EG')
+            });
+
+            saveToLocalStorage();
+            document.getElementById('newAdTitle').value = '';
+            document.getElementById('newAdContent').value = '';
+            renderAds();
+            alert('تم نشر الإعلان بنجاح!');
+        }
+
+        function deleteAd(id) {
+            if (confirm('هل أنت تأكد من حذف هذا الإعلان؟')) {
+                ads = ads.filter(a => a.id !== id);
+                saveToLocalStorage();
+                renderAds();
+            }
+        }
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            btn.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('geniusUsers', JSON.stringify(users));
+            localStorage.setItem('geniusRecords', JSON.stringify(records));
+            localStorage.setItem('geniusAds', JSON.stringify(ads));
+        }
+
+        function logout() {
+            currentUser = null;
+            nav('homeView');
+        }
+    </script>
+</body>
+</html>
